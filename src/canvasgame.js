@@ -1,4 +1,15 @@
 import gt from "../gametin/index.js";
+const { Container } = gt;
+const scene = new Container();
+const player = {
+    update: function () {
+        console.log('updated');
+    }
+};
+scene.add(player);
+scene.update();
+scene.remove(player);
+console.log(scene.children);
 
 const canvas = document.querySelector('#game canvas');
 const ctx = canvas.getContext('2d');

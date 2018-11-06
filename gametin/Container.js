@@ -2,6 +2,7 @@ class Container {
     constructor() {
         this.pos = {x: 0, y: 0};
         this.children = [];
+        this.visible = true;
     }
     //methods
     add (child) {
