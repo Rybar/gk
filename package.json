@@ -18,5 +18,8 @@
   "bugs": {
     "url": "https://github.com/rybar/gk/issues"
   },
-  "homepage": "https://github.com/rybar/gk#readme"
+  "homepage": "https://github.com/rybar/gk#readme",
+  "devDependencies": {
+    "http-server": "^0.11.1"
+  }
 }

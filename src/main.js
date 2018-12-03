@@ -1,11 +1,11 @@
 import gt from "../gametin/index.js";
+import Game from "../gametin/Game.js";
 
-const { Container, CanvasRenderer, Text, Texture, Sprite, KeyControls }  = gt;
+const { Container, CanvasRenderer, Text, Texture, Sprite, KeyControls, math }  = gt;
+
 //setup
-const w = 640;
-const h = 300;
-const renderer = new CanvasRenderer(w,h);
-document.querySelector(`#game`).appendChild(renderer.view);
+const game = new Game(640, 300, '#game');
+const {scene, w, h} = game;
 
 //game state
 let lastShot = 0;
@@ -14,14 +14,13 @@ let spawnSpeed = 1.0;
 let scoreAmount = 0;
 let gameOver = false;
 
-//game objects
-const scene = new Container();
-
+// image assets
 const textures = {
-    background: new Texture('../res/img/background2x.png'),
-    spaceship: new Texture('../res/img/spaceship.png'),
-    bullet: new Texture('../res/img/bullet.png'),
-    baddie: new Texture('../res/img/baddie.png')
+    background: new Texture('./res/img/skyBackground2x.png'),
+    spaceship: new Texture('./res/img/spaceship.png'),
+    bullet: new Texture('./res/img/bullet.png'),
+    baddie: new Texture('./res/img/baddie.png'),
+    building: new Texture('./res/img/buildng.png')
 }
 
 const controls = new KeyControls();
@@ -31,6 +30,7 @@ const score = new Text("score:", {
     fill: "#DDD",
     align: "center"
 });
+
 score.pos.x = w/2;
 score.pos.y = h-30;
 
@@ -48,6 +48,10 @@ ship.update = function (dt, t){
     if(pos.x > w) pos.x = w;
     if(pos.y < 0) pos.y = 0;
     if(pos.y > h-32) pos.y = h-32;
+
+    const { scale } = this;
+    scale.x = Math.abs(Math.sin(t)) + 1;
+    scale.y = Math.abs(Math.sin(t * 1.33)) + 1;
 
     if(!gameOver && controls.action && t - lastShot > 0.15){
         lastShot = t;
@@ -70,9 +74,26 @@ function spawnBaddie(x,y, speed){
     baddies.add(baddie);
 }
 
+//random buildings
+const buildings = scene.add(new Container());
+
+const makeRandom = (b, x) => {
+    b.scale.x = math.rndFloat(1,3);
+    b.scale.y = math.rndFloat(1,3);
+    b.pos.x = x;
+    b.pos.y = h - b.scale.y * 64;
+};
+
+for(let x = 0; x < 50; x++){
+    const b = buildings.add(new Sprite(textures.building));
+    console.log(math.rndInt(w));
+    makeRandom(b,math.rndInt(w));
+}
+
 
 //add everything to scene container
 scene.add(new Sprite(textures.background));
+scene.add(buildings);
 scene.add(ship);
 scene.add(bullets);
 scene.add(baddies);
@@ -80,13 +101,16 @@ scene.add(score);
 
 
 //game loop
-let dt = 0;
-let last = 0;
-function loop (ms) {
-    requestAnimationFrame(loop);
-    const t = ms / 1000;
-    dt = t - last;
-    last = t;
+game.run((dt, t) => {
+
+    //move our buildings with screenwrap, respawning after leaving left edge
+    buildings.map(b => {
+        b.pos.x--;
+        if(b.pos.x < -80) {
+            makeRandom(b,w);
+        }
+    })
+
     if(t-lastSpawn > spawnSpeed){
         lastSpawn = t;
         const speed = -50 - (Math.random() * Math.random() * 100);
@@ -96,14 +120,14 @@ function loop (ms) {
         //accellerating spawn speed
         spawnSpeed = spawnSpeed > 0.05 ?  0.6 : spawnSpeed * 0.97 + .001;
     }
-    baddies.children.forEach(baddie => {
+    baddies.map(baddie => {
         if(baddie.pos.x < -32) {
             if(!gameOver){
                 doGameOver();
             }
             baddie.dead = true;
         }
-        bullets.children.forEach(bullet => {
+        bullets.map(bullet => {
             const dx = baddie.pos.x + 16 - (bullet.pos.x+8);
             const dy = baddie.pos.y + 16 - (bullet.pos.y+8);
             if(Math.hypot(dx,dy) < 24){
@@ -115,10 +139,7 @@ function loop (ms) {
     });
     
     score.text = `Score: ${scoreAmount}`; 
-    scene.update(dt, t);
-    renderer.render(scene);
-}
-requestAnimationFrame(loop);
+})
 
 function fireBullet(x,y) {
     const bullet = new Sprite(textures.bullet);

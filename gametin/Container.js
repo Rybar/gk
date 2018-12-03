@@ -24,6 +24,10 @@ class Container {
         });
 
     }
+
+    map (f){
+        return this.children.map(f);
+    }
 }
 
 export default Container;

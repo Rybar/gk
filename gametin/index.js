@@ -5,6 +5,8 @@ import CanvasRenderer from "./renderer/CanvasRenderer.js";
 import Text from "./renderer/Text.js";
 import Texture from "./renderer/Texture.js";
 import Sprite from "./renderer/Sprite.js";
+import Game from "./Game.js";
+import math from "./utils/math.js";
 
 export default {
     KeyControls,
@@ -13,5 +15,7 @@ export default {
     CanvasRenderer,
     Text,
     Texture,
-    Sprite
+    Sprite,
+    Game,
+    math
 };
