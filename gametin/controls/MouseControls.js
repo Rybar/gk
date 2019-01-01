@@ -9,9 +9,9 @@ class MouseControls {
         this.released = false;
 
         //handlers
-        document.addEventListener('mousemove', this.move.bind(this), false);
-        document.addEventListener('mousedown', this.down.bind(this), false);
-        document.addEventListener('mouseup', this.up.bind(this), false);
+        document.addEventListener("mousedown", e => this.down(e), false);
+        document.addEventListener("mouseup", e => this.up(e), false);
+        document.addEventListener("mousemove", e => this.move(e), false);
     }
 
     mousePosFromEvent({ clientX, clientY}) {

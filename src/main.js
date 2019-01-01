@@ -7,6 +7,7 @@ const { Container, CanvasRenderer, Text, Texture, Sprite, KeyControls, math, Til
 const game = new Game(640, 300, '#game');
 const {scene, w, h} = game;
 const mouse = new MouseControls(game.renderer.view);
+const cursorsprite = new Texture('./res/img/spaceship.png');
 
 const balls = scene.add(new Container());
 for(let i = 0; i < 100; i++){
@@ -15,9 +16,11 @@ for(let i = 0; i < 100; i++){
     squizz.pos.y = math.rndInt(h);
 }
 
+const cursor = scene.add(new Sprite(cursorsprite))
+
 game.run((dt, t) => {
     const {pressed, pos} = mouse;
-    
+    cursor.pos = mouse.pos;
     balls.map(b => {
         if(b.pos.x > w) {
             b.pos.x = -32;
@@ -35,4 +38,5 @@ game.run((dt, t) => {
         console.log(pos);
     }
     mouse.update();
+
 });
