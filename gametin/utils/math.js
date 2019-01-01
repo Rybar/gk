@@ -22,10 +22,16 @@ function rndOneFrom(items){
     return items[rndInt(items.length)];
 }
 
+function distance (a,b) {
+    const dx = a.x - b.x;
+    const dy = a.x - b.y;
+    return Math.sqrt(dx * dx + dy * dy);
+}
 export default {
     rndInt,
     rndFloat,
     rndOneIn,
-    rndOneFrom
+    rndOneFrom,
+    distance
 };
 
