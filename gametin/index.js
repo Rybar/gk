@@ -8,7 +8,7 @@ import Sprite from "./renderer/Sprite.js";
 import Game from "./Game.js";
 import math from "./utils/math.js";
 import TileSprite from "./renderer/TileSprite.js";
-//import AnimManager from "./renderer/AnimManager.js";
+import AnimManager from "./renderer/AnimManager.js";
 
 export default {
     KeyControls,
@@ -20,6 +20,6 @@ export default {
     Sprite,
     Game,
     math,
-    TileSprite
-    //AnimManager
+    TileSprite,
+    AnimManager
 };

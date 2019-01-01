@@ -9,26 +9,34 @@ class Squizz extends TileSprite {
         this.rate = 0.5;
         this.curTime = 0;
         this.curFrame = 0;
-        this.frames = [
+        const { anims } = this;
+        anims.add('walk', [
             {x: 0, y: 0 },
             {x: 1, y: 0 },
             {x: 2, y: 0 },
-            {x: 3, y: 0 },
-            {x: 4, y: 0 }
-        ];
-        this.frame = this.frames[this.curFrame];
+            {x: 3, y: 0 }
+            ], 0.07);
+        anims.add('dead', [{x: 4, y: 0 }], 1);
         this.speed = math.rndFloat(20,100);
+
     }
     
 
     update (dt, t) {
-        const { pos, speed, rate, frames } = this;
+        
+        const { pos, speed, rate, anims } = this;
         this.curTime += dt;
         pos.x += speed * dt;
-        if(this.curTime > rate){
-            this.frame = frames[this.curFrame++ % 4];
-            this.curTime -= rate;
-        }
+        if(speed != 0){
+            anims.play('walk');
+        } else {
+            anims.play('dead');
+        } 
+        // if(this.curTime > rate){
+        //     this.frame = frames[this.curFrame++ % 4];
+        //     this.curTime -= rate;
+        // }
+        super.update(dt);
         
     }
 }

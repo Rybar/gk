@@ -54,3 +54,5 @@ class AnimManager {
         this.current = null;
     }
 }
+
+export default AnimManager;
