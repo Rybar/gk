@@ -2,46 +2,23 @@ import gt from "../gametin/index.js";
 import Squizz from "./entities/Squizz.js";
 import Level from "./Level.js";
 
-const { Container, Texture, Sprite, math, Game, MouseControls}  = gt;
+const { Container, Texture, Sprite, math, Game, MouseControls, KeyControls}  = gt;
 
 //setup
 const game = new Game(640, 300, '#game');
 const {scene, w, h} = game;
-const mouse = new MouseControls(game.renderer.view);
-const cursorsprite = new Texture('./res/img/spaceship.png');
 const dirtTiles = new Texture("./res/img/dirtTiles.png");
-
+const controls = new KeyControls();
+const squizz = new Squizz(controls);
 const level = new Level(w,h);
 scene.add(level);
-
-const balls = scene.add(new Container());
-for(let i = 0; i < 100; i++){
-    const squizz = balls.add(new Squizz());
-    squizz.pos.x = math.rndInt(w);
-    squizz.pos.y = math.rndInt(h);
-}
-
-const cursor = scene.add(new Sprite(cursorsprite))
+scene.add(squizz);
 
 game.run((dt, t) => {
-    const {pressed, pos} = mouse;
-    cursor.pos = mouse.pos;
-    balls.map(b => {
-        if(b.pos.x > w) {
-            b.pos.x = -32;
-            b.speed *= 1.1;
-        }
-        if(pressed && math.distance(pos, b.pos) <= 16) {
-            if(b.speed > 0) {
-                b.speed = 0;
-            } else {
-                b.dead = true;
-            }
-        }
-    })
-    if(pressed){
-        console.log(pos);
-    }
-    mouse.update();
-
+    const { pos } = squizz;
+    const { bounds: {top,bottom, left, right} } = level;
+    
+    pos.x = math.clamp(pos.x, left, right);
+    pos.y = math.clamp(pos.y, top, bottom);
+    level.checkGround(pos);
 });

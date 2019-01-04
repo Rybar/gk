@@ -19,6 +19,36 @@ class TileMap extends Container {
             return s;
         });
     }
+
+    pixelToMapPos(pos){
+        const {tileW, tileH } = this;
+        return {
+            x: Math.floor(pos.x / tileW),
+            y: Math.floor(pos.y / tileH)
+        }
+    }
+
+    mapToPixelPos(mapPos){
+        const { tileW, tileH } = this;
+        return {
+            x: mapPos.x * tileW,
+            y: mapPos.y * tileH
+        };
+    }
+
+    tileAtMapPos(MapPos){
+        return this.children[mapPos.y * this.mapW + mapPos.x];
+    }
+
+    tileAtPixelPos(pos){
+        return this.tileAtMapPos(this.pixelToMapPos(pos));
+    }
+
+    setFrameAtMapPos(mapPos, frame) {
+        const tile = this.tileAtMapPos(mapPos);
+        tile.frame = frame; 
+        return tile;
+    }
 }
 
 export default TileMap;

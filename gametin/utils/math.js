@@ -27,11 +27,16 @@ function distance (a,b) {
     const dy = a.y - b.y;
     return Math.sqrt(dx * dx + dy * dy);
 }
+
+function clamp(x, min, max) {
+    return Math.max(min, Math.min(x, max));
+}
 export default {
     rndInt,
     rndFloat,
     rndOneIn,
     rndOneFrom,
-    distance
+    distance,
+    clamp
 };
 
