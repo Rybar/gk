@@ -1,13 +1,18 @@
 import gt from "../gametin/index.js";
 import Squizz from "./entities/Squizz.js";
+import Level from "./Level.js";
 
-const { Container, CanvasRenderer, Text, Texture, Sprite, KeyControls, math, TileSprite, Game, MouseControls }  = gt;
+const { Container, Texture, Sprite, math, Game, MouseControls}  = gt;
 
 //setup
 const game = new Game(640, 300, '#game');
 const {scene, w, h} = game;
 const mouse = new MouseControls(game.renderer.view);
 const cursorsprite = new Texture('./res/img/spaceship.png');
+const dirtTiles = new Texture("./res/img/dirtTiles.png");
+
+const level = new Level(w,h);
+scene.add(level);
 
 const balls = scene.add(new Container());
 for(let i = 0; i < 100; i++){
