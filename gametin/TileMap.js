@@ -36,7 +36,7 @@ class TileMap extends Container {
         };
     }
 
-    tileAtMapPos(MapPos){
+    tileAtMapPos(mapPos){
         return this.children[mapPos.y * this.mapW + mapPos.x];
     }
 

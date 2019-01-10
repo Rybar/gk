@@ -5,7 +5,7 @@ import Level from "./Level.js";
 const { Container, Texture, Sprite, math, Game, MouseControls, KeyControls}  = gt;
 
 //setup
-const game = new Game(640, 300, '#game');
+const game = new Game(640, 360, '#game');
 const {scene, w, h} = game;
 const dirtTiles = new Texture("./res/img/dirtTiles.png");
 const controls = new KeyControls();
@@ -17,8 +17,9 @@ scene.add(squizz);
 game.run((dt, t) => {
     const { pos } = squizz;
     const { bounds: {top,bottom, left, right} } = level;
+    const ground = level.checkGround(pos);
     
     pos.x = math.clamp(pos.x, left, right);
     pos.y = math.clamp(pos.y, top, bottom);
-    level.checkGround(pos);
+    
 });
