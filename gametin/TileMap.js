@@ -49,6 +49,10 @@ class TileMap extends Container {
         tile.frame = frame; 
         return tile;
     }
+
+    setFrameAtPixelPos(pos, frame) {
+        return this.setFrameAtMapPos(this.pixelToMapPos(pos), frame);
+    }
 }
 
 export default TileMap;

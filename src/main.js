@@ -16,10 +16,9 @@ scene.add(squizz);
 
 game.run((dt, t) => {
     const { pos } = squizz;
-    const { bounds: {top,bottom, left, right} } = level;
-    const ground = level.checkGround(pos);
-    
+    const { bounds: {top,bottom, left, right} } = level; 
     pos.x = math.clamp(pos.x, left, right);
     pos.y = math.clamp(pos.y, top, bottom);
+    const ground = level.checkGround(pos);
     
 });
