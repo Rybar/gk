@@ -5,7 +5,8 @@ const texture = new Texture('./res/img/squizz-Sheet.png');
 class Squizz extends TileSprite {
     constructor(controls) {
         super(texture, 32, 32);
-
+        this.w = 32;
+        this.h = 32;
         //this.anchor = {x: -16, y: -16 };
         this.rate = 0.5;
         this.curTime = 0;

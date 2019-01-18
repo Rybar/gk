@@ -7,6 +7,7 @@ import Texture from "./renderer/Texture.js";
 import Sprite from "./renderer/Sprite.js";
 import Game from "./Game.js";
 import math from "./utils/math.js";
+import entity from "./utils/entity.js";
 import TileSprite from "./renderer/TileSprite.js";
 import AnimManager from "./renderer/AnimManager.js";
 import TileMap from "./TileMap.js";
@@ -21,6 +22,7 @@ export default {
     Sprite,
     Game,
     math,
+    entity,
     TileSprite,
     AnimManager,
     TileMap
