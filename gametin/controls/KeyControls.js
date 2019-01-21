@@ -45,6 +45,10 @@ class KeyControls {
         }
         return 0;
     }
+
+    reset () {
+        this.keys = {};
+    }
 }
 
 export default KeyControls;
