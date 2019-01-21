@@ -11,6 +11,7 @@ import entity from "./utils/entity.js";
 import TileSprite from "./renderer/TileSprite.js";
 import AnimManager from "./renderer/AnimManager.js";
 import TileMap from "./TileMap.js";
+import Camera from "./Camera.js";
 
 export default {
     KeyControls,
@@ -25,5 +26,6 @@ export default {
     entity,
     TileSprite,
     AnimManager,
-    TileMap
+    TileMap,
+    Camera
 };

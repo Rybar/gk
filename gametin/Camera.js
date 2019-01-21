@@ -1,4 +1,5 @@
-import math from "./utils/math";
+import math from "./utils/math.js";
+import Container from "./Container.js";
 
 class Camera extends Container {
     constructor(subject, viewport, worldSize = viewport) {
