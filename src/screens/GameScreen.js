@@ -6,9 +6,10 @@ import Baddie from "../entities/Baddie.js";
 import Level from "../Level.js";
 
 class GameScreen extends Container {
-  constructor(game, controls) {
+  constructor(game, controls, onGameOver) {
     super();
 
+    this.onGameOver = onGameOver;
     const level = new Level(game.w * 3, game.h * 2);
     const squizz = new Squizz(controls);
     squizz.pos = {
@@ -24,6 +25,13 @@ class GameScreen extends Container {
         0.08
       )
     );
+
+    this.stats = {
+      pellets: 0,
+      maxPellets: level.totalFreeSots,
+      lives: 3,
+      score: 0
+    }
 
     // Add roaming baddies
     this.baddies = this.addBaddies(level);
@@ -74,6 +82,8 @@ class GameScreen extends Container {
     const ground = level.checkGround(entity.center(squizz));
     if (ground === "cleared") {
       squizz.dead = true;
+      console.log('squizz')
+      this.onGameOver(this.stats);
     }
   }
 
@@ -85,6 +95,8 @@ class GameScreen extends Container {
       if (entity.distance(squizz, b) < 32) {
         // A hit!
         squizz.dead = true;
+        console.log('squizz')
+        this.onGameOver(this.stats);
 
         // Send off screen for a bit
         if (b.xSpeed) pos.x = -level.w;

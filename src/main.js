@@ -14,6 +14,7 @@ function titleScreen(){
 }
 
 function gameOverScreen(result){
+    console.log('game over');
     game.scene = new GameOverScreen(game, controls, result, titleScreen);
 }
 

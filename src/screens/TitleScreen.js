@@ -13,7 +13,7 @@ class TitleScreen extends Container {
     }
     update(dt, t){
         const {title, controls} = this;
-        title.pos.y += Math.sin(t/300) * 0.3;
+        title.pos.y += Math.sin(t*5) * 0.4;
         if(controls.action){
             this.onStart();
         }
