@@ -25,7 +25,34 @@ function bounds(entity) {
     };
 }
 
+function hit(e1, e2){
+    const a = bounds(e1);
+    const b = bounds(e2);
+    return a.x + a.w >= b.x &&
+    a.x <= b.x + b.w &&
+    a.y + a.h >= b.y &&
+    a.y <= b.y + b.h;
+}
+
+function hits(entity, container, hitCallBack) {
+    const a = bounds(entity);
+    container.map(e2 => {
+        const b = bounds(e2);
+        if(
+            a.x + a.w >= b.x &&
+            a.x <= b.x + b.w &&
+            a.y + a.h >= b.y &&
+            a.y <= b.y + b.h
+        ) {
+            hitCallBack(e2);
+        }
+    });
+}
+
 export default {
     center,
-    distance
+    distance,
+    bounds,
+    hit,
+    hits
 };
