@@ -31,12 +31,17 @@ function distance (a,b) {
 function clamp(x, min, max) {
     return Math.max(min, Math.min(x, max));
 }
+
+function mix(a, b, p) {
+    return a * (1-p) + b * p;
+}
 export default {
     rndInt,
     rndFloat,
     rndOneIn,
     rndOneFrom,
     distance,
-    clamp
+    clamp,
+    mix
 };
 

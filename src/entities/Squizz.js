@@ -1,13 +1,13 @@
 import gt from "../../gametin/index.js";
 const { TileSprite, Texture, math } = gt;
-const texture = new Texture('./res/img/squizz-Sheet.png');
+const texture = new Texture('./res/img/protoTiles.png');
 
 class Squizz extends TileSprite {
     constructor(controls) {
-        super(texture, 32, 32);
-        this.w = 32;
-        this.h = 32;
-        //this.anchor = {x: -16, y: -16 };
+        super(texture, 16, 16);
+        this.w = 16;
+        this.h = 16;
+        //this.anchor = {x: -8, y: -8 };
         this.rate = 0.5;
         this.curTime = 0;
         this.curFrame = 0;
@@ -15,13 +15,12 @@ class Squizz extends TileSprite {
 
         const { anims } = this;
         anims.add('walk', [
-            {x: 0, y: 0 },
-            {x: 1, y: 0 },
-            {x: 2, y: 0 },
-            {x: 3, y: 0 }
+            {x: 4, y: 0 },
+            {x: 4, y: 0 },
+            {x: 4, y: 0 },
+            {x: 4, y: 0 }
             ], 0.07);
-        anims.add('dead', [{x: 4, y: 0 }], 1);
-        this.speed = 0.15;
+        this.speed = 0.1;
         this.dir = {
             x: 1,
             y: 0
@@ -38,22 +37,20 @@ class Squizz extends TileSprite {
         
         if(speed != 0){
             anims.play('walk');
-        } else {
-            anims.play('dead');
-        }
+        } 
         if(x && x !== dir.x){
             dir.x = x;
             dir.y = 0;
-            pos.y = Math.round(pos.y / 32) * 32; //y snapping
+            pos.y = Math.round(pos.y / 16) * 16; //y snapping
 
         } else if (y && y !== dir.y) {
             dir.y = y;
             dir.x = 0;
-            pos.x = Math.round(pos.x / 32) * 32; //x snapping
+            pos.x = Math.round(pos.x / 16) * 16; //x snapping
         }
 
-        pos.x += dir.x * dt * (32 / speed);
-        pos.y += dir.y * dt * (32 / speed);
+        pos.x += dir.x * dt * (16 / speed);
+        pos.y += dir.y * dt * (16 / speed);
 
 
         

@@ -2,12 +2,13 @@ import math from "./utils/math.js";
 import Container from "./Container.js";
 
 class Camera extends Container {
-    constructor(subject, viewport, worldSize = viewport) {
+    constructor(subject, viewport, worldSize = viewport, ease = 1) {
         super();
         this.w = viewport.w;
         this.h = viewport.h;
         this.worldSize = worldSize;
         this.setSubject(subject);
+        this.ease = ease;
     }
     setSubject(e) {
         this.subject = e ? e.pos || e : this.pos; //did we pass in an entity with a position, or just a position?
@@ -25,9 +26,9 @@ class Camera extends Container {
         //otherwise follow subject is just a point
     }
 
-    focus(){
+    focus(dt){
 
-        const { pos, w, h, worldSize, subject, offset } = this;
+        const { pos, w, h, worldSize, subject, offset, ease} = this;
         const centeredX = subject.x + offset.x - w /2;
         const maxX = worldSize.w - w;
         const x = -math.clamp(centeredX, 0, maxX);
@@ -35,15 +36,16 @@ class Camera extends Container {
         const maxY = worldSize.h - h;
         const y = -math.clamp(centeredY, 0, maxY);
 
-        pos.x = x;
-        pos.y = y;
+        ///smooooooooooth camera
+        pos.x = math.mix(pos.x, x, ease);
+        pos.y = math.mix(pos.y, y, ease);
 
     }
     update(dt, t){
 
         super.update(dt, t);
         if (this.subject) {
-            this.focus();
+            this.focus(dt);
         }
 
     }

@@ -10,19 +10,18 @@ class GameScreen extends Container {
     super();
 
     this.onGameOver = onGameOver;
-    const level = new Level(game.w * 3, game.h * 2);
+    const level = new Level(game.w * 2, game.h * 2);
     const squizz = new Squizz(controls);
     squizz.pos = {
-      x: (level.w / 2) | 0,
-      y: (level.h / 2) | 0
+      x: 16 * Math.round(level.w/16/2),
+      y: 16 * Math.round(level.h/16/2)
     };
 
     const camera = this.add(
       new Camera(
         squizz,
         { w: game.w, h: game.h },
-        { w: level.w, h: level.h },
-        0.08
+        { w: level.w, h: level.h }, 0.1
       )
     );
 
@@ -38,7 +37,7 @@ class GameScreen extends Container {
 
     // Add it all to the game camera
     camera.add(level);
-    camera.add(this.baddies);
+    //camera.add(this.baddies);
     camera.add(squizz);
 
     // Keep references to things we need in "update"
@@ -65,13 +64,6 @@ class GameScreen extends Container {
   update(dt, t) {
     super.update(dt, t);
     const { squizz, level } = this;
-
-    // Make this game harder the longer you play
-    squizz.speed -= 0.003 * dt;
-
-    // Update game containers
-    this.updateBaddies();
-
     // Confine player to the level bounds
     const { pos } = squizz;
     const { bounds: { top, bottom, left, right } } = level;
@@ -81,32 +73,10 @@ class GameScreen extends Container {
     // See if we're on new ground
     const ground = level.checkGround(entity.center(squizz));
     if (ground === "cleared") {
-      squizz.dead = true;
-      console.log('squizz')
-      this.onGameOver(this.stats);
+      //squizz.dead = true;
+      //console.log('squizz')
+      //this.onGameOver(this.stats);
     }
-  }
-
-  updateBaddies() {
-    const { squizz, level } = this;
-
-    this.baddies.map(b => {
-      const { pos } = b;
-      if (entity.distance(squizz, b) < 32) {
-        // A hit!
-        squizz.dead = true;
-        console.log('squizz')
-        this.onGameOver(this.stats);
-
-        // Send off screen for a bit
-        if (b.xSpeed) pos.x = -level.w;
-        else pos.y = -level.h;
-      }
-
-      // Screen wrap
-      if (pos.x > level.w) pos.x = -32;
-      if (pos.y > level.h) pos.y = -32;
-    });
   }
 }
 

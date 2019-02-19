@@ -2,11 +2,11 @@ import TileMap from "../gametin/TileMap.js";
 import Texture from "../gametin/renderer/Texture.js";
 import math from "../gametin/utils/math.js";
 
-const texture = new Texture ("./res/img/dirtTiles.png");
+const texture = new Texture ("./res/img/protoTiles.png");
 
 class Level extends TileMap {
     constructor(w, h){
-        const tileSize = 32;
+        const tileSize = 16;
         const mapW = Math.floor(w / tileSize);
         const mapH = Math.floor(h / tileSize);
         const level = [];
@@ -14,7 +14,7 @@ class Level extends TileMap {
         for (let y = 0; y < mapH; y++) {
             for (let x = 0; x < mapW; x++) {
                 level.push({
-                    x: math.rndInt(10),
+                    x: math.rndInt(2)+1,
                     y: 0
                 });
             }
